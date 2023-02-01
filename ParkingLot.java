@@ -139,13 +139,14 @@ public class ParkingLot {
 		/**
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
-			if (!str.isEmpty()){
+			if (!str.isEmpty() && str != SECTIONER){
 				numRows++;
 				numSpotsPerRow = str.replaceAll("\\s+","").split(SEPARATOR).length;
 			}
-			else{
+			else if (str == SECTIONNER){
 				scanner.close();
 			}
+		}
 		*/
 
 		scanner.close();
