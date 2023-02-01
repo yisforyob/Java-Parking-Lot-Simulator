@@ -134,13 +134,14 @@ public class ParkingLot {
 		}
 		
 		// This is how I implemented it 
+		// I am removing blank  lines here too
 		
 		/**
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			if (!str.isEmpty()){
 				numRows++;
-				numSpotsPerRow = str.split(SEPARATOR).length;  // SEPARATOR = ", "
+				numSpotsPerRow = str.replaceAll("\\s+","").split(SEPARATOR).length;
 			}
 			else{
 				scanner.close();
@@ -170,6 +171,15 @@ public class ParkingLot {
 					// what do you think about adding an end to the substring like str.substring(3*i,i) or (3*i,i+1)?
 					// or we can use a str.charAt(3*i), if possible?
 				}
+		        // I read the assignment file and it says that we should first remove blank spaces because they are not always consistent,
+		        // meaning the logic will not always work... I came up with another one
+			/**
+			if (line<numRows) {
+				for (int i=0;i<numSpotsPerRow;i++) {
+					lotDesign[line][i]= Util.getCarTypeByLabel(str.replaceAll("\\s+","").charAt(2*i)); 
+					// "\\s+" represents a blank line
+				}
+			*/
 			}
 			line++;
 		}
