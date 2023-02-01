@@ -165,7 +165,10 @@ public class ParkingLot {
 			// WRITE YOUR CODE HERE!
 			if (line<numRows) {
 				for (int i=0;i<numSpotsPerRow;i++) {
-					lotDesign[line][i]= Util.getCarTypeByLabel(str.substring(3*i));
+					lotDesign[line][i]= Util.getCarTypeByLabel(str.substring(3*i)); 
+					// nice logic (3*i)! I think the substring will take the remaining of the line if it is not ended.
+					// what do you think about adding an end to the substring like str.substring(3*i,i) or (3*i,i+1)?
+					// or we can use a str.charAt(3*i), if possible?
 				}
 			}
 			line++;
