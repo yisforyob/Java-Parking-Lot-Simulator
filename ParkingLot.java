@@ -129,7 +129,7 @@ public class ParkingLot {
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			numSpotsPerRow=((str.length()+2)/3);
+			numSpotsPerRow=((str.length()+2)/3); //Nice logic! That's smart!
 			numRows++;
 		}
 
