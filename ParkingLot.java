@@ -129,9 +129,23 @@ public class ParkingLot {
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			numSpotsPerRow=((str.length()+2)/3); //Nice logic! That's smart!
+			numSpotsPerRow=((str.length()+2)/3); //Nice logic! That's smart! 
 			numRows++;
 		}
+		
+		// This is how I implemented it 
+		
+		/**
+		while (scanner.hasNext()) {
+			String str = scanner.nextLine();
+			if (!str.isEmpty()){
+				numRows++;
+				numSpotsPerRow = str.split(SEPARATOR).length;  // SEPARATOR = ", "
+			}
+			else{
+				scanner.close();
+			}
+		*/
 
 		scanner.close();
 	}
