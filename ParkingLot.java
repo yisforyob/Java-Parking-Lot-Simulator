@@ -73,6 +73,7 @@ public class ParkingLot {
 	 */
 	public void park(int i, int j, Car c) {
 		// WRITE YOUR CODE HERE!
+		occupancy[i][j]=c;
 	}
 
 	/**
@@ -85,8 +86,7 @@ public class ParkingLot {
 	 */
 	public Car remove(int i, int j) {
 		// WRITE YOUR CODE HERE!
-		return null; // REMOVE THIS STATEMENT AFTER IMPLEMENTING THIS METHOD
-
+		occupancy[i][j]=null;
 	}
 
 	/**
@@ -126,30 +126,18 @@ public class ParkingLot {
 
 		Scanner scanner = new Scanner(new File(strFilename));
 
-		while (scanner.hasNext()) {
+		while (scanner.hasNext() && (scanner.nextLine()).isEmpty() == false ) {
 			String str = scanner.nextLine();
-			// WRITE YOUR CODE HERE!
-			numSpotsPerRow=((str.length()+2)/3); //Nice logic! That's smart! 
-			numRows++;
-		}
-		
-		// This is how I implemented it 
-		// I am removing blank  lines here too
-		
-		/**
-		while (scanner.hasNext()) {
-			String str = scanner.nextLine();
-			if (!str.isEmpty() && str != SECTIONER){
+			if (str.isEmpty() == false ){
 				numRows++;
-				numSpotsPerRow = str.replaceAll("\\s+","").split(SEPARATOR).length;
+				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ", "
 			}
-			else if (str == SECTIONNER){
+			else{
 				scanner.close();
 			}
-		}
-		*/
 
 		scanner.close();
+		}
 	}
 
 	private void populateFromFile(String strFilename) throws Exception {
@@ -160,41 +148,34 @@ public class ParkingLot {
 
 		int line;
 		line=0;
-		
+
 		// while loop for reading the lot design
-		while (scanner.hasNext()) {
+		while (scanner.hasNext() && scanner.nextLine()!=SECTIONER) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
 			if (line<numRows) {
 				for (int i=0;i<numSpotsPerRow;i++) {
-					lotDesign[line][i]= Util.getCarTypeByLabel(str.substring(3*i)); 
-					// nice logic (3*i)! I think the substring will take the remaining of the line if it is not ended.
-					// what do you think about adding an end to the substring like str.substring(3*i,i) or (3*i,i+1)?
-					// or we can use a str.charAt(3*i), if possible?
+					lotDesign[line][i]= Util.getCarTypeByLabel((str.replaceAll("\\s+","")).charAt(2*i));
 				}
-		        // I read the assignment file and it says that we should first remove blank spaces because they are not always consistent,
-		        // meaning the logic will not always work... I came up with another one
-			/**
-			if (line<numRows) {
-				for (int i=0;i<numSpotsPerRow;i++) {
-					lotDesign[line][i]= Util.getCarTypeByLabel(str.replaceAll("\\s+","").charAt(2*i)); 
-					// "\\s+" represents a blank line
-				}
-			*/
+				line++;
 			}
-			line++;
 		}
 		
 		// while loop for reading occupancy data
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			if (line>(numRows+2)) {
-				occupancy[(int)str.substring(0)][(int)str.substring(3)]=Car.setPlateNum(str.substring(9)+str.substring(10)+str.substring(11));
+			str = (str.replaceAll("\\s+","")).charAt(2*i)
+			
+			int line = (int)str.charAt(0);
+			int column = (int)str.charAt(2);
+			Car carType = (Car)str.charAt(4);
+			String plateNum = str.substring(6);
+			
+			if (canParkAt(line, column,carType)) {
+				park(line, column, carType);
 			}
-			line++;
 		}
-
 		scanner.close();
 	}
 
