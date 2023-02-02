@@ -162,22 +162,22 @@ public class ParkingLot {
 	}
 
 	private void calculateLotDimensions(String strFilename) throws Exception {
-
+        String str;
 		Scanner scanner = new Scanner(new File(strFilename));
-
-		while (scanner.hasNext() && (scanner.nextLine()).isEmpty() == false ) {
-			String str = scanner.nextLine();
-			if (str.isEmpty() == false ){
+		
+		
+		while (scanner.hasNext() && !(str = scanner.nextLine()).isEmpty()) {
+			
+			if (!str.isEmpty()){
 				numRows++;
-				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ", "
+				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ","
 			}
 			else{
 				break;
 			}
+          
 		}
-
-		scanner.close();
-
+		 scanner.close();
 	}
 
 	private void populateFromFile(String strFilename) throws Exception {
@@ -188,14 +188,17 @@ public class ParkingLot {
 
 		int line;
 		line=0;
-
+        
+		String str1;
+		
 		// while loop for reading the lot design
-		while (scanner.hasNext() && scanner.nextLine()!=SECTIONER) {
-			String str = scanner.nextLine();
+		while (scanner.hasNext() && (str1 = scanner.nextLine())!=SECTIONER) {
+			
 			// WRITE YOUR CODE HERE!
 			if (line<numRows) {
 				for (int i=0;i<numSpotsPerRow;i++) {
-					lotDesign[line][i]= Util.getCarTypeByLabel((str.replaceAll("\\s+","")).substring(2*i,2*i+1));
+					String newStr = str1.replaceAll("\\s+","");
+					lotDesign[line][i]= Util.getCarTypeByLabel(Character.toString(newStr.charAt(2*i)));
 				}
 				line++;
 			}
@@ -219,7 +222,6 @@ public class ParkingLot {
 		}
 		scanner.close();
 	}
-
 	/**
 	 * Produce string representation of the parking lot
 	 * 
