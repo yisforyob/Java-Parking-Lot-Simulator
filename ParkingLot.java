@@ -172,11 +172,12 @@ public class ParkingLot {
 				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ", "
 			}
 			else{
-				scanner.close();
+				break;
 			}
+		}
 
 		scanner.close();
-		}
+
 	}
 
 	private void populateFromFile(String strFilename) throws Exception {
@@ -210,7 +211,7 @@ public class ParkingLot {
 			int column = (int)str.charAt(2);
 			CarType carType = Util.getCarTypeByLabel(str.substring(4,5));
 			String plateNum = str.substring(6);
-			Car car = (carType, plateNum) ;
+			Car car = new Car(carType, plateNum);
 			
 			if (canParkAt(line, column,car)==true) {
 				park(line, column, car);
