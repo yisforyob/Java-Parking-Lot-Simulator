@@ -86,7 +86,14 @@ public class ParkingLot {
 	 */
 	public Car remove(int i, int j) {
 		// WRITE YOUR CODE HERE!
-		occupancy[i][j]=null;
+		if (i>=occupancy.length || j>=occupancy[i].length) {
+			return null;
+		}
+		else {
+			Car temp = occupancy[i][j];
+			occupancy[i][j]=null;
+			return temp ;
+		}
 	}
 
 	/**
@@ -109,8 +116,15 @@ public class ParkingLot {
 	 */
 	public int getTotalCapacity() {
 		// WRITE YOUR CODE HERE!
-		return -1; // REMOVE THIS STATEMENT AFTER IMPLEMENTING THIS METHOD
-
+		int count = 0 ;
+		for (int i =0;i<lotDesign.length;i++) {
+			for (int j =0; j<lotDesign[i].length;j++) {
+				if (lotDesign[i][j]!=CarType.NA) {
+					count++;
+				}
+			}
+		}
+		return count;
 	}
 
 	/**
@@ -169,10 +183,10 @@ public class ParkingLot {
 			
 			int line = (int)str.charAt(0);
 			int column = (int)str.charAt(2);
-			Car carType = (Car)str.charAt(4);
+			CarType carType = Util.getCarTypeByLabel(str.substring(4,5));
 			String plateNum = str.substring(6);
 			
-			if (canParkAt(line, column,carType)) {
+			if (canParkAt(line, column,carType)==true) {
 				park(line, column, carType);
 			}
 		}
