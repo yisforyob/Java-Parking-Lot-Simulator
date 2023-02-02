@@ -106,26 +106,20 @@ public class ParkingLot {
 	 */
 	public boolean canParkAt(int i, int j, Car c) {
 		// WRITE YOUR CODE HERE!
-		if ((i>=occupancy.length) 
-			|| (j>=occupancy[i].length) 
-		        || (occupancy[i][j] != null) 
-			|| (lotDesign[i][j] == NA){
+		if ((i>=occupancy.length) || (j>=occupancy[i].length) || (occupancy[i][j] != null) || (lotDesign[i][j] == CarType.NA) ) {
 			return false;
 		}
-		else if (c.type == E){
+		else if (c.getType() == CarType.ELECTRIC){
 			return true;	
 		}
-		else if(c.type == S 
-		        && (lotDesign[i][j] != E )){
+		else if(c.getType() == CarType.SMALL && (lotDesign[i][j] != CarType.ELECTRIC )) {
 			return true;	
 		}
-		else if(c.type == R 
-		        && (lotDesign[i][j] != E )
-		        && (lotDesign[i][j] != S )){
+		else if(c.getType() == CarType.REGULAR && (lotDesign[i][j] != CarType.ELECTRIC ) && (lotDesign[i][j] != CarType.SMALL )) {
 			return true;
 		}
-		else if(c.type == L && (lotDesign[i][j] == L)){
-			return true
+		else if(c.getType() == CarType.LARGE && (lotDesign[i][j] == CarType.LARGE)){
+			return true;
 		}
 		else{
 			return false;
@@ -159,7 +153,7 @@ public class ParkingLot {
 		int count = 0 ;
 		for (int i =0;i<lotDesign.length;i++) {
 			for (int j =0; j<lotDesign[i].length;j++) {
-				if (lotDesign[i][j]!= NA && occupancy[i][j]!= null ) {
+				if (lotDesign[i][j]!= CarType.NA && occupancy[i][j]!= null ) {
 					count++;
 				}
 			}
@@ -200,7 +194,7 @@ public class ParkingLot {
 			// WRITE YOUR CODE HERE!
 			if (line<numRows) {
 				for (int i=0;i<numSpotsPerRow;i++) {
-					lotDesign[line][i]= Util.getCarTypeByLabel((str.replaceAll("\\s+","")).charAt(2*i));
+					lotDesign[line][i]= Util.getCarTypeByLabel((str.replaceAll("\\s+","")).substring(2*i,2*i+1));
 				}
 				line++;
 			}
@@ -210,15 +204,16 @@ public class ParkingLot {
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			str = (str.replaceAll("\\s+","")).charAt(2*i)
+			str = (str.replaceAll("\\s+",""));
 			
-			int line = (int)str.charAt(0);
+			line = (int)str.charAt(0);
 			int column = (int)str.charAt(2);
 			CarType carType = Util.getCarTypeByLabel(str.substring(4,5));
 			String plateNum = str.substring(6);
+			Car car = (carType, plateNum) ;
 			
-			if (canParkAt(line, column,carType)==true) {
-				park(line, column, carType);
+			if (canParkAt(line, column,car)==true) {
+				park(line, column, car);
 			}
 		}
 		scanner.close();
