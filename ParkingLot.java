@@ -106,7 +106,30 @@ public class ParkingLot {
 	 */
 	public boolean canParkAt(int i, int j, Car c) {
 		// WRITE YOUR CODE HERE!
-		return false; // REMOVE THIS STATEMENT AFTER IMPLEMENTING THIS METHOD
+		if ((i>=occupancy.length) 
+			|| (j>=occupancy[i].length) 
+		        || (occupancy[i][j] != null) 
+			|| (lotDesign[i][j] == NA){
+			return false;
+		}
+		else if (c.type == E){
+			return true;	
+		}
+		else if(c.type == S 
+		        && (lotDesign[i][j] != E )){
+			return true;	
+		}
+		else if(c.type == R 
+		        && (lotDesign[i][j] != E )
+		        && (lotDesign[i][j] != S )){
+			return true;
+		}
+		else if(c.type == L && (lotDesign[i][j] == L)){
+			return true
+		}
+		else{
+			return false;
+		}
 
 	}
 
@@ -133,7 +156,15 @@ public class ParkingLot {
 	 */
 	public int getTotalOccupancy() {
 		// WRITE YOUR CODE HERE!
-		return -1; // REMOVE THIS STATEMENT AFTER IMPLEMENTING THIS METHOD		
+		int count = 0 ;
+		for (int i =0;i<lotDesign.length;i++) {
+			for (int j =0; j<lotDesign[i].length;j++) {
+				if (lotDesign[i][j]!= NA && occupancy[i][j]!= null ) {
+					count++;
+				}
+			}
+		}
+		return count;		
 	}
 
 	private void calculateLotDimensions(String strFilename) throws Exception {
