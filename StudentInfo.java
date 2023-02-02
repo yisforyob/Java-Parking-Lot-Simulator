@@ -21,7 +21,7 @@ public class StudentInfo {
         System.out.println("*                       ITI 1121[A]                        *");
         System.out.println("*                                                          *");
         System.out.println("*                       YADAH NGOLO                        *");
-        System.out.println("*                        300######                         *");
+        System.out.println("*                        300286446                         *");
         System.out.println("*                       ITI 1121[A]                        *");
         System.out.println("************************************************************");
         System.out.println();
