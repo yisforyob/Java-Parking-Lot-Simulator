@@ -28,7 +28,7 @@ public class Car {
 	 */
 	public void setType(CarType type) {
 		// WRITE YOUR CODE HERE!
-		type = type;
+		this.type = type;
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class Car {
 	 */
 	public void setPlateNum(String plateNum) {
 		// WRITE YOUR CODE HERE!
-		plateNum = plateNum;
+		this.plateNum = plateNum;
 	}
 
 	/**
@@ -55,12 +55,10 @@ public class Car {
 	 * @param type     is the type of the car
 	 * @param plateNum is the car plate number
 	 */
-	public Car(CarType typ, String plateNu) {
+	public Car(CarType type, String plateNum) {
 		// WRITE YOUR CODE HERE!
-		CarType type;
-		type = typ;
-		String plateNum;
-		plateNum = plateNu;
+		this.type=type;
+		this.plateNum=plateNum;
 		
 	}
 
