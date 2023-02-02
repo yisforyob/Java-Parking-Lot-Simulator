@@ -20,6 +20,9 @@ public class StudentInfo {
         System.out.println("*                        300313089                         *");
         System.out.println("*                       ITI 1121[A]                        *");
         System.out.println("*                                                          *");
+        System.out.println("*                       YADAH NGOLO                        *");
+        System.out.println("*                        300######                         *");
+        System.out.println("*                       ITI 1121[A]                        *");
         System.out.println("************************************************************");
         System.out.println();
 
