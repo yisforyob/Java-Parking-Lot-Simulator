@@ -162,22 +162,20 @@ public class ParkingLot {
 	}
 
 	private void calculateLotDimensions(String strFilename) throws Exception {
-        String str;
 		Scanner scanner = new Scanner(new File(strFilename));
 		
-		
-		while (scanner.hasNext() && !(str = scanner.nextLine()).isEmpty()) {
-			
+		while (scanner.hasNext()) {
+			String str = scanner.nextLine();
+			str = str.replaceAll("\\s+","");
+			if (str.equals(SECTIONER)) {
+				break;
+			}
 			if (!str.isEmpty()){
 				numRows++;
 				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ","
 			}
-			else{
-				break;
-			}
-          
 		}
-		 scanner.close();
+		scanner.close();
 	}
 
 	private void populateFromFile(String strFilename) throws Exception {
@@ -186,38 +184,42 @@ public class ParkingLot {
 
 		// YOU MAY NEED TO DEFINE SOME LOCAL VARIABLES HERE!
 
-		int line;
-		line=0;
-        
-		String str1;
+		int line = 0;
 		
 		// while loop for reading the lot design
-		while (scanner.hasNext() && (str1 = scanner.nextLine())!=SECTIONER) {
-			
+		while (scanner.hasNext()) {
+			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			if (line<numRows) {
-				for (int i=0;i<numSpotsPerRow;i++) {
-					String newStr = str1.replaceAll("\\s+","");
-					lotDesign[line][i]= Util.getCarTypeByLabel(Character.toString(newStr.charAt(2*i)));
+			if (!(str.equals(SECTIONER)||str.equals(""))) {
+				if (line<numRows) {
+					str = str.replaceAll("\\s+","");
+					for (int i=0;i<numSpotsPerRow;i++) {
+						lotDesign[line][i]= Util.getCarTypeByLabel(Character.toString(str.charAt(2*i)));
+					}
+					line++;
 				}
-				line++;
+			}
+			if (line>=numRows) {
+				break;
 			}
 		}
-		
+		System.out.println("Test 1 ; Moving to Occupancy ...");
 		// while loop for reading occupancy data
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			str = (str.replaceAll("\\s+",""));
-			
-			line = (int)str.charAt(0);
-			int column = (int)str.charAt(2);
-			CarType carType = Util.getCarTypeByLabel(str.substring(4,5));
-			String plateNum = str.substring(6);
-			Car car = new Car(carType, plateNum);
-			
-			if (canParkAt(line, column,car)==true) {
-				park(line, column, car);
+			str = str.replaceAll(" ","");
+			str = str.replaceAll("#","");
+			if (!str.equals("")) {
+				line = Integer.parseInt(str.substring(0,1));
+				int column = Integer.parseInt(str.substring(2,3));
+				CarType carType = Util.getCarTypeByLabel(str.substring(4,5));
+				String plateNum = str.substring(6);
+				Car car = new Car(carType, plateNum);
+				
+				if (canParkAt(line, column,car)==true) {
+					park(line, column, car);
+				}
 			}
 		}
 		scanner.close();
