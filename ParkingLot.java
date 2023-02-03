@@ -219,6 +219,9 @@ public class ParkingLot {
 				if (canParkAt(line, column,car)==true) {
 					park(line, column, car);
 				}
+				else{
+					System.out.println("Car " + Util.getLabelByCarType(car.getType()) + "(" + car.getPlateNum() + ") " + "cannot be parked at (" + line + "," + column + ")");
+				}
 			}
 		}
 		scanner.close();
