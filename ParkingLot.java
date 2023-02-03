@@ -86,8 +86,8 @@ public class ParkingLot {
 	 */
 	public Car remove(int i, int j) {
 		// WRITE YOUR CODE HERE!
-		if (i>=occupancy.length || j>=occupancy[i].length) {
-			return null;
+		if (i>=occupancy.length || j>=occupancy[i].length) { 
+			return null;  // avoiding the outOfBounds errors
 		}
 		else {
 			Car temp = occupancy[i][j];
@@ -166,11 +166,11 @@ public class ParkingLot {
 		
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
-			str = str.replaceAll("\\s+","");
+			str = str.replaceAll("\\s+","");  //replacing the blank lines by empty strings to index the line better
 			if (str.equals(SECTIONER)) {
 				break;
 			}
-			if (!str.isEmpty()){
+			if (!str.isEmpty()){       //the number of rows get incremented only when the line is not empty
 				numRows++;
 				numSpotsPerRow = (str.split(SEPARATOR)).length;  // SEPARATOR = ","
 			}
@@ -190,7 +190,7 @@ public class ParkingLot {
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
 			// WRITE YOUR CODE HERE!
-			if (!(str.equals(SECTIONER)||str.equals(""))) {
+			if (!(str.equals(SECTIONER)||str.equals(""))) {  //avoiding the sectionner and the empty lines
 				if (line<numRows) {
 					str = str.replaceAll("\\s+","");
 					for (int i=0;i<numSpotsPerRow;i++) {
