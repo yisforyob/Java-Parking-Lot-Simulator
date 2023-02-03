@@ -203,7 +203,6 @@ public class ParkingLot {
 				break;
 			}
 		}
-		System.out.println("Test 1 ; Moving to Occupancy ...");
 		// while loop for reading occupancy data
 		while (scanner.hasNext()) {
 			String str = scanner.nextLine();
