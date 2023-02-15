@@ -26,6 +26,9 @@ public class TriangularDistribution {
 	public TriangularDistribution(int a, int c, int b) {
 	
 		// WRITE YOUR CODE HERE!
+		this.a = a;
+		this.b = b;
+		this.c = c;
 
 	}
 
@@ -36,8 +39,29 @@ public class TriangularDistribution {
 	public Rational pdf(int x) {
 
 		// WRITE YOUR CODE HERE!
+		Rational value = new Rational(1,1);
+		if (x<this.a || x>this.b) {
+			value = new Rational(0,1);
 
-		return null; // Remove this statement when your implementation is complete.
+		}
+		if (x<this.c){
+			int numerator = 2*(x-this.a);
+			int denumerator = (this.b-this.a)*(this.c-this.a);
+			value = new Rational(numerator, denumerator);
+			return value;
+		}
+		if (x==this.c) {
+			int numerator = 2;
+			int denumerator = (this.b-this.a);
+			value = new Rational(numerator, denumerator);
+			return value;
+		}
+		else {
+			int numerator = 2*(this.b-x);
+			int denumerator = (this.b-this.a)*(this.b-this.c);
+			value = new Rational(numerator, denumerator);
+			return value;
+		}
 	}
 
 	/**
