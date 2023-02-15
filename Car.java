@@ -1,5 +1,9 @@
 /**
  * @author Mehrdad Sabetzadeh, University of Ottawa
+ * 
+ *         The implementation of this class is complete. You do *not* need to
+ *         change this class in this assignment.
+ * 
  */
 public class Car {
 
@@ -60,8 +64,6 @@ public class Car {
 	 * Returns a string representation of the car
 	 */
 	public String toString() {
-		// NOTE: The implementation of this method is complete. You do NOT need to
-		// change it for the assignment.
 		return Util.getLabelByCarType(type) + '(' + plateNum + ')';
 	}
 }

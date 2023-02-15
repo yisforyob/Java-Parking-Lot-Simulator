@@ -16,13 +16,10 @@ public class StudentInfo {
     public static void display() {
 
         System.out.println("************************************************************");
-        System.out.println("*                       AHMED REBAI                        *");
-        System.out.println("*                        300313089                         *");
-        System.out.println("*                       ITI 1121[A]                        *");
         System.out.println("*                                                          *");
-        System.out.println("*                       YADAH NGOLO                        *");
-        System.out.println("*                        300286446                         *");
-        System.out.println("*                       ITI 1121[A]                        *");
+        System.out.println("*                                                          *");
+        System.out.println("*                                                          *");
+        System.out.println("*                                                          *");
         System.out.println("************************************************************");
         System.out.println();
 

@@ -1,5 +1,5 @@
 /**
- * This is a utility class to simplify the implementation of A1. You are NOT
+ * This is a utility class to simplify the implementation of A1. You are *not*
  * supposed to change the Util class. You are nevertheless encouraged to study
  * the methods in this class for practice.
  * 
