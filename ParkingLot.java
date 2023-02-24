@@ -1,4 +1,4 @@
-import java.io.File;
+import java.io.File;bbbbbbbbbbb b
 import java.util.Scanner;
 
 /**
@@ -59,9 +59,14 @@ public class ParkingLot {
 	 * @param timestamp is the (simulated) time when the car gets parked in the lot
 	 */
 	public void park(int i, int j, Car c, int timestamp) {
-
-		// WRITE YOUR CODE HERE!		
-
+		// WRITE YOUR CODE HERE!
+		if (!canParkAt(i, j, c)) {
+			System.out.println("Car " + c + " cannot be parked at (" + i + "," + j + ")");
+			return;
+		}
+		Spot nSpot;
+		nSpot.setCar(c);
+		occupancy[i][j] = nSpot;
 	}
 
 	/**
@@ -73,11 +78,15 @@ public class ParkingLot {
 	 *         of range, or when there is no car parked at (i, j)
 	 */
 	public Spot remove(int i, int j) {
-
 		// WRITE YOUR CODE HERE!
-		
-		return null; // Remove this statement when your implementation is complete.
+		if (i >= numRows || j >= numSpotsPerRow) {
+			System.out.println("Out of range index error.");
+			return null;
+		}
 
+		Spot c = occupancy[i][j];
+		occupancy[i][j] = null;
+		return c;
 	}
 
 	/**
@@ -135,33 +144,68 @@ public class ParkingLot {
 	 *         used for parking (i.e., excluding spots that point to CarType.NA)
 	 */
 	public int getTotalCapacity() {
-
 		// WRITE YOUR CODE HERE!
-		
-		return -1; // Remove this statement when your implementation is complete.
-	
+		int count = 0;
+
+		for (int i = 0; i < numRows; i++)
+			for (int j = 0; j < numSpotsPerRow; j++)
+				if (lotDesign[i][j] != CarType.NA)
+					count++;
+
+		return count;
 	}
 
 	/**
 	 * @return the total occupancy of the parking lot
 	 */
 	public int getTotalOccupancy() {
-
 		// WRITE YOUR CODE HERE!
-		
-		return -1; // Remove this statement when your implementation is complete.
+		int count = 0;
 
+		for (int i = 0; i < numRows; i++)
+			for (int j = 0; j < numSpotsPerRow; j++)
+				if (occupancy[i][j] != null)
+					count++;
+
+		return count;
 	}
 
 	private void calculateLotDimensions(String strFilename) throws Exception {
-
 		// WRITE YOUR CODE HERE!
+		Scanner scanner = new Scanner(new File(strFilename));
+
+		while (scanner.hasNext()) {
+			String str = scanner.nextLine().trim();
+
+			if (!(str.isEmpty())) {
+				numRows++;
+				String[] tokens = str.split(SEPARATOR);
+				numSpotsPerRow = Integer.max(tokens.length, numSpotsPerRow);
+			}
+		}
+
+		scanner.close();
 
 	}
 
 	private void populateDesignFromFile(String strFilename) throws Exception {
-
 		// WRITE YOUR CODE HERE!
+		Scanner scanner = new Scanner(new File(strFilename));
+		int lineCount = 0;
+		int rowNumber = 0;
+		// while loop for reading the lot design
+		while (scanner.hasNext()) {
+			String str = scanner.nextLine().trim();
+			lineCount++;
+
+			if (!(str.isEmpty())) {
+				String[] tokens = str.split(",");
+				for (int i = 0; i < tokens.length; i++)
+					lotDesign[rowNumber][i] = Util.getCarTypeByLabel(tokens[i].trim());
+				rowNumber++;
+			}
+		}
+
 
 	}
 
