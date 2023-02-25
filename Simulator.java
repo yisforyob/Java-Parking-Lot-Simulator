@@ -77,13 +77,13 @@ public class Simulator {
 		// All you need to do is to convert this hourly rate into 
 		// a per-second rate (probability).
 		
-		//this.probabilityOfArrivalPerSec = new Rational(?, ?);
+		this.probabilityOfArrivalPerSec = new Rational(perHourArrivalRate, 3600);
 
 		
 		// Finally, you need to initialize the incoming and outgoing queues
 
-		// incomingQueue = new ...
-		// outgoingQueue = new ...
+		incomingQueue = new Queue <Spot>();
+		outgoingQueue = new Queue <Spot>();
 
 	}
 
