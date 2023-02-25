@@ -40,6 +40,20 @@ public class ParkingLot {
 
 		// WRITE YOUR CODE HERE!
 		
+		if (strFilename == null) {
+			System.out.println("File name cannot be null.");
+			return;
+		}
+
+		// determine numRows and numSpotsPerRow
+		calculateLotDimensions(strFilename);
+
+		lotDesign = new CarType[numRows][numSpotsPerRow];
+
+		occupancy = new Spot[numRows][numSpotsPerRow];
+
+		populateDesignFromFile(strFilename);
+		
 	}
 
 	public int getNumRows() {
@@ -64,8 +78,8 @@ public class ParkingLot {
 			System.out.println("Car " + c + " cannot be parked at (" + i + "," + j + ")");
 			return;
 		}
-		Spot nSpot;
-		nSpot.setCar(c);
+		Spot nSpot = new Spot (c, timestamp);
+		
 		occupancy[i][j] = nSpot;
 	}
 
@@ -84,9 +98,10 @@ public class ParkingLot {
 			return null;
 		}
 
-		Spot c = occupancy[i][j];
+		Spot s = occupancy[i][j];
 		occupancy[i][j] = null;
-		return c;
+		
+		return s;
 	}
 
 	/**
@@ -99,8 +114,11 @@ public class ParkingLot {
 	public Spot getSpotAt(int i, int j) {
 
 		// WRITE YOUR CODE HERE!
-		
-		return null; // Remove this statement when your implementation is complete.
+		if (i >= numRows || j >= numSpotsPerRow) {
+			System.out.println("Out of range index error.");
+			return null;
+		}
+		return occupancy[i][j];
 	}
 
 	/**
@@ -117,7 +135,31 @@ public class ParkingLot {
 
 		// WRITE YOUR CODE HERE!
 		
-		return false; // Remove this statement when your implementation is complete.
+		if (i >= numRows || j >= numSpotsPerRow) {
+			return false;
+		}
+
+		if (occupancy[i][j] != null) {
+			return false;
+		}
+
+		CarType carType = c.getType();
+		CarType spotType = lotDesign[i][j];
+
+		if (carType == CarType.ELECTRIC) {
+			return (spotType == CarType.ELECTRIC) || (spotType == CarType.SMALL) || (spotType == CarType.REGULAR)
+					|| (spotType == CarType.LARGE);
+
+		} else if (carType == CarType.SMALL) {
+			return (spotType == CarType.SMALL) || (spotType == CarType.REGULAR) || (spotType == CarType.LARGE);
+
+		} else if (carType == CarType.REGULAR) {
+			return (spotType == CarType.REGULAR) || (spotType == CarType.LARGE);
+		} else if (carType == CarType.LARGE) {
+			return (spotType == CarType.LARGE);
+		}
+
+		return false;
 	}
 
 	/**
@@ -134,8 +176,17 @@ public class ParkingLot {
 	public boolean attemptParking(Car c, int timestamp) {
 
 		// WRITE YOUR CODE HERE!
+		for (int i = 0; i < occupancy.length; i++){
+			for(int j = 0; j < occupancy[i].length; j++){
+				if ((canParkAt(i,j,c)){
+					park(i,j,c, timestamp);
+					return true;
+				}
+		        }
+	        }
+    
 		
-		return false; // Remove this statement when your implementation is complete.
+		return false; 
 
 	}
 
@@ -182,6 +233,8 @@ public class ParkingLot {
 				String[] tokens = str.split(SEPARATOR);
 				numSpotsPerRow = Integer.max(tokens.length, numSpotsPerRow);
 			}
+			
+			//will the file not have a sectioner?
 		}
 
 		scanner.close();
