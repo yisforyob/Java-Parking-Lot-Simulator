@@ -82,9 +82,8 @@ public class Simulator {
 		
 		// Finally, you need to initialize the incoming and outgoing queues
 
-		incomingQueue = new Queue <Spot>();
-		outgoingQueue = new Queue <Spot>();
-
+		incomingQueue = new LinkedQueue <Spot>();
+		outgoingQueue = new LinkedQueue <Spot>();
 	}
 
 	/**
@@ -103,6 +102,48 @@ public class Simulator {
 		while (clock < steps) {
 	
 			// WRITE YOUR CODE HERE!
+			boolean carArrives = RandomGenerator.eventOccurred(probabilityOfArrivalPerSec);
+			if (carArrives){
+				Car car = RandomGenerator.generateRandomCar();
+				Spot s = new Spot(car, clock);
+				incomingQueue.enqueue(s);	
+			}
+			
+			
+			for (int i = 0; i < lot.getNumRows(); i++){
+				for (int j = 0; j < lot.getNumSpotsPerRow(); j++){
+					if (lot.getSpotAt(i,j) != null){
+					        int parkDuration = clock - lot.getSpotAt(i,j).getTimestamp();
+					
+					    if (parkDuration == MAX_PARKING_DURATION){
+						outgoingQueue.enqueue(lot.getSpotAt(i,j));
+						lot.remove(i,j);
+						    
+					    }else{
+						    boolean carDeparts = RandomGenerator.eventOccurred(departurePDF.pdf(parkDuration));
+						    if(carDeparts){
+							outgoingQueue.enqueue(lot.getSpotAt(i,j));
+							lot.remove(i,j);
+							    
+						    }
+					    }
+				    }
+				}
+			}
+			
+			boolean check = true;
+			while(!incomingQueue.isEmpty() && check){
+				Spot in = incomingQueue.dequeue();
+				check = lot.attemptParking(in.getCar(), in.getTimestamp());
+				if (check){
+					System.out.println(in.getCar() + " ENTERED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
+				}
+			}
+			
+			if(!outgoingQueue.isEmpty()){
+				Spot out = outgoingQueue.dequeue();
+				System.out.println(out.getCar() + " EXITED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
+			}
 
 			clock++;
 		}
