@@ -15,7 +15,7 @@ public class Spot {
 	public void setCar(Car car) {
 		// WRITE YOUR CODE HERE!
 		this.car=car;
-		this.timestamp=getTime();
+		// this.timestamp=getTime();   I don't think this is necessary because we don't work with the class Time
 	}
 
 	public int getTimestamp() {
