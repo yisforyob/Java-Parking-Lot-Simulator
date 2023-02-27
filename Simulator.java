@@ -98,6 +98,9 @@ public class Simulator {
 		this.clock = 0;
 		// Note that for the specific purposes of A2, clock could have been 
 		// defined as a local variable too.
+		
+		boolean check = true;
+		Spot in = null;
 
 		while (clock < steps) {
 	
@@ -131,15 +134,19 @@ public class Simulator {
 				}
 			}
 			
-			boolean check = true;
-			while(!incomingQueue.isEmpty() && check){
-				Spot in = incomingQueue.dequeue();
+			if (!incomingQueue.isEmpty() && check){
+			    in = incomingQueue.dequeue();
 				check = lot.attemptParking(in.getCar(), in.getTimestamp());
 				if (check){
 					System.out.println(in.getCar() + " ENTERED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
 				}
+			}else if (!check){
+				check = lot.attemptParking(in.getCar(), in.getTimestamp());
+				if (check){
+					System.out.println(in.getCar() + " ENTERED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
+				}
+				
 			}
-			
 			if(!outgoingQueue.isEmpty()){
 				Spot out = outgoingQueue.dequeue();
 				System.out.println(out.getCar() + " EXITED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
