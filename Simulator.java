@@ -119,14 +119,14 @@ public class Simulator {
 					        int parkDuration = clock - lot.getSpotAt(i,j).getTimestamp();
 					
 					    if (parkDuration == MAX_PARKING_DURATION){
-						outgoingQueue.enqueue(lot.getSpotAt(i,j));
-						lot.remove(i,j);
+						Spot s = lot.remove(i,j);
+						outgoingQueue.enqueue(s);
 						    
 					    }else{
 						    boolean carDeparts = RandomGenerator.eventOccurred(departurePDF.pdf(parkDuration));
 						    if(carDeparts){
-							outgoingQueue.enqueue(lot.getSpotAt(i,j));
-							lot.remove(i,j);
+							Spot s = lot.remove(i,j);
+							outgoingQueue.enqueue(s);
 							    
 						    }
 					    }
