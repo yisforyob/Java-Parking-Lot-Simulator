@@ -84,6 +84,7 @@ public class Simulator {
 
 		incomingQueue = new LinkedQueue <Spot>();
 		outgoingQueue = new LinkedQueue <Spot>();
+
 	}
 
 	/**
@@ -99,13 +100,14 @@ public class Simulator {
 		// Note that for the specific purposes of A2, clock could have been 
 		// defined as a local variable too.
 		
-		boolean check = true;
-		Spot in = null;
-
+        boolean check = true;    // determine whether the car dequeued from the incomingQueue has been parked.
+		Spot in = null;      
+		// these local variables used from line 141 to 153
+		
 		while (clock < steps) {
 	
 			// WRITE YOUR CODE HERE!
-			boolean carArrives = RandomGenerator.eventOccurred(probabilityOfArrivalPerSec);
+			boolean carArrives = RandomGenerator.eventOccurred(probabilityOfArrivalPerSec); 
 			if (carArrives){
 				Car car = RandomGenerator.generateRandomCar();
 				Spot s = new Spot(car, clock);
@@ -116,17 +118,18 @@ public class Simulator {
 			for (int i = 0; i < lot.getNumRows(); i++){
 				for (int j = 0; j < lot.getNumSpotsPerRow(); j++){
 					if (lot.getSpotAt(i,j) != null){
-					        int parkDuration = clock - lot.getSpotAt(i,j).getTimestamp();
+						int parkDuration = clock - lot.getSpotAt(i,j).getTimestamp();   // calculate the duration that c has been parked
 					
 					    if (parkDuration == MAX_PARKING_DURATION){
-						Spot s = lot.remove(i,j);
-						outgoingQueue.enqueue(s);
+							Spot s = lot.remove(i,j);    // remove the car from the lot
+							outgoingQueue.enqueue(s);    // place it in the outgoing queue  
+						    
 						    
 					    }else{
 						    boolean carDeparts = RandomGenerator.eventOccurred(departurePDF.pdf(parkDuration));
 						    if(carDeparts){
-							Spot s = lot.remove(i,j);
-							outgoingQueue.enqueue(s);
+								Spot s = lot.remove(i,j);
+							    outgoingQueue.enqueue(s);
 							    
 						    }
 					    }
@@ -134,19 +137,21 @@ public class Simulator {
 				}
 			}
 			
-			if (!incomingQueue.isEmpty() && check){
+			
+			if (!incomingQueue.isEmpty() && check){    
 			    in = incomingQueue.dequeue();
-				check = lot.attemptParking(in.getCar(), in.getTimestamp());
+				check = lot.attemptParking(in.getCar(), in.getTimestamp());  // attempt to park the car dequeued
 				if (check){
 					System.out.println(in.getCar() + " ENTERED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
 				}
 			}else if (!check){
-				check = lot.attemptParking(in.getCar(), in.getTimestamp());
+				check = lot.attemptParking(in.getCar(), in.getTimestamp());  // checks whether an appropriate spot has been freed since the last iteration
 				if (check){
 					System.out.println(in.getCar() + " ENTERED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
 				}
 				
 			}
+			
 			if(!outgoingQueue.isEmpty()){
 				Spot out = outgoingQueue.dequeue();
 				System.out.println(out.getCar() + " EXITED at timestep " + clock + "; occupancy is a " + lot.getTotalOccupancy());
