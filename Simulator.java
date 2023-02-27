@@ -100,7 +100,7 @@ public class Simulator {
 		// Note that for the specific purposes of A2, clock could have been 
 		// defined as a local variable too.
 		
-        boolean check = true;    // determine whether the car dequeued from the incomingQueue has been parked.
+                boolean check = true;    // determine whether the car dequeued from the incomingQueue has been parked.
 		Spot in = null;      
 		// these local variables used from line 141 to 153
 		
